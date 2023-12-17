@@ -11,19 +11,19 @@ const marstex = new THREE.TextureLoader().load('texture/mars.jpg');
 const jupyter = new THREE.TextureLoader().load('texture/jupiter.jpg');
 const neptune = new THREE.TextureLoader().load('texture/neptunus.jpg');
 const saturn = new THREE.TextureLoader().load('texture/saturnus.jpg');
-const uranustex= new THREE.TextureLoader().load('texture/uranus.jpg');
+const uranustex = new THREE.TextureLoader().load('texture/uranus.jpg');
 
 // Scene & Camera
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 100);
-camera.position.z = 10;
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 100);
+camera.position.z = 25;
 
 var viewport = document.getElementById('viewport');
 // var canvas = document.getElementById('canvas');
 
 // Mengambil tinggi dan lebar dari elemen canvas
-var canvasHeight = viewport.height * 3;
-var canvasWidth = viewport.width * 3;
+var canvasHeight = viewport.height;
+var canvasWidth = viewport.width;
 
 // Menampilkan nilai tinggi dan lebar di console (opsional)
 console.log('Tinggi Canvas: ' + canvasHeight);
@@ -129,7 +129,7 @@ const torusMaterial = new THREE.MeshPhongMaterial({
 const torus = new THREE.Mesh(torusGeometry, torusMaterial);
 torus.castShadow = true;
 torus.receiveShadow = true;
-torus.rotation.x += Math.PI/2;
+torus.rotation.x += Math.PI / 2;
 scene.add(torus);
 
 // Neptunus (sphere)
@@ -226,8 +226,6 @@ function animate() {
   // earthearthAndTorus.rotation.y += 0.005;
 
   // torus.position.copy(earth.position);
-
-  
 
   // torus.rotation.x = torusControl.x;
   // torus.position.y = torusControl.y;
