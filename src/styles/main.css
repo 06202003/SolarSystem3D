@@ -1,0 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.justify-content-center {
+  min-height: 100vh;
+}
+
+.viewport {
+  height: auto;
+  width: 100%;
+  background-color: transparent;
+}
