@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "dat.gui": "^0.7.9",
+    "three": "^0.158.0"
+  },
+  "name": "solarsystem3d-tes",
+  "description": "Tubes Grafkom",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/06202003/SolarSystem3D.git"
+  },
+  "keywords": [
+    "solar"
+  ],
+  "author": "David",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/06202003/SolarSystem3D/issues"
+  },
+  "homepage": "https://github.com/06202003/SolarSystem3D#readme"
+}
