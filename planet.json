@@ -1,0 +1,116 @@
+{
+  "Sun": {
+    "name": "Sun",
+    "mass": "333,000 times the mass of Earth",
+    "satellites": "8 planets and numerous other objects",
+    "diameter": "1,391,000 km (109 times the diameter of Earth)",
+    "composition": "Mainly hydrogen and helium",
+    "surfaceTemperature": "Approximately 5,500 degrees C",
+    "rotationPeriod": "About 25 days at the equator (Earth size)",
+    "revolutionPeriod": "Does not orbit around another object",
+    "distanceFromCenterOfGalaxy": "About 27,000 light-years"
+  },
+  "Mercury": {
+    "name": "Mercury",
+    "mass": "0.056 times the mass of Earth",
+    "satellites": "None",
+    "diameter": "4,878 km (equivalent to 0.38 times the diameter of Earth)",
+    "atmosphereComposition": "Mostly Helium",
+    "gravity": "0.38 times Earth's gravity",
+    "surfaceTemperature": "-170 degrees C at night and 430 degrees C during the day",
+    "rotationPeriod": "59 days (Earth size)",
+    "revolutionPeriod": "88 days (Earth size)",
+    "distanceFromSun": "0.39 AU (Astronomical Unit)"
+  },
+
+  "Venus": {
+    "name": "Venus",
+    "mass": "0.815 times the mass of Earth",
+    "satellites": "None",
+    "diameter": "12,103 km (equivalent to 0.95 times the diameter of Earth)",
+    "atmosphereComposition": "80 km thick layer consisting of carbon dioxide with some water vapor. Clouds contain droplets of concentrated sulfuric acid",
+    "gravity": "0.9 times Earth's gravity",
+    "surfaceTemperature": "460 degrees C",
+    "rotationPeriod": "243 days (Earth size)",
+    "revolutionPeriod": "225 days (Earth size)",
+    "distanceFromSun": "0.72 AU (Astronomical Unit)"
+  },
+
+  "Earth": {
+    "name": "Earth",
+    "mass": "5,980,000,000,000,000,000,000,000 kg",
+    "satellites": "1 (called Moon)",
+    "diameter": "12,756 km",
+    "atmosphereComposition": "78% nitrogen, 21% oxygen, 1% carbon dioxide, argon, and water vapor, as well as other gases",
+    "gravity": "9,807 m/s² (1.0 times Earth's gravity)",
+    "surfaceTemperature": "About 22 degrees C",
+    "rotationPeriod": "1 day (Earth size)",
+    "revolutionPeriod": "365.25 days (Earth size)",
+    "distanceFromSun": "149,600,000 km or 1 AU (Astronomical Unit)"
+  },
+
+  "Mars": {
+    "name": "Mars",
+    "mass": "0.107 times the mass of Earth",
+    "satellites": "2 (Phobos and Deimos)",
+    "diameter": "6,794 km (equivalent to 0.53 times the diameter of Earth)",
+    "atmosphereComposition": "A very thin layer consisting mostly of carbon dioxide",
+    "gravity": "0.376 times Earth's gravity",
+    "surfaceTemperature": "Range -120 degrees C to 25 degrees C",
+    "rotationPeriod": "1.03 days (Earth size)",
+    "revolutionPeriod": "687 days (Earth size)",
+    "distanceFromSun": "1.52 AU (Astronomical Unit)"
+  },
+
+  "Jupyter": {
+    "name": "Jupyter",
+    "mass": "318 times the mass of Earth",
+    "satellites": "79 satellites and 4 rings",
+    "diameter": "142,984 km (equivalent to 11.21 times the diameter of Earth)",
+    "atmosphereComposition": "84% hydrogen and 15% helium",
+    "gravity": "2.525 times Earth's gravity",
+    "surfaceTemperature": "-150 degrees C",
+    "rotationPeriod": "9 hours 55 minutes (Earth size)",
+    "revolutionPeriod": "11.8 years (Earth size)",
+    "distanceFromSun": "5.2 AU (Astronomical Unit)"
+  },
+
+  "Saturn": {
+    "name": "Saturn",
+    "mass": "95.184 times the mass of Earth",
+    "satellites": "82 satellites and 7 rings",
+    "diameter": "120,536 km (equivalent to 9.45 times the diameter of Earth)",
+    "atmosphereComposition": "A very thick layer consisting of hydrogen and helium",
+    "gravity": "1.064 times Earth's gravity",
+    "surfaceTemperature": "-180 degrees C",
+    "rotationPeriod": "10 hours 39 minutes (Earth size)",
+    "revolutionPeriod": "29.5 years (Earth size)",
+    "distanceFromSun": "9.6 AU (Astronomical Unit)"
+  },
+
+  "Uranus": {
+    "name": "Uranus",
+    "mass": "14.54 times the mass of Earth",
+    "satellites": "27 satellites and 13 rings",
+    "diameter": "51,200 km (equivalent to 4.01 times the diameter of Earth)",
+    "atmosphereComposition": "Hydrogen, helium, and very turbulent, wind speed of more than 600 km/hour",
+    "gravity": "0.903 times Earth's gravity",
+    "surfaceTemperature": "-220 degrees C",
+    "rotationPeriod": "17 hours 14 minutes (Earth size)",
+    "revolutionPeriod": "84 years (Earth size)",
+    "distanceFromSun": "19.2 AU (Astronomical Unit)"
+  },
+
+  "Neptune": {
+    "name": "Neptune",
+    "mass": "17.15 times the mass of Earth",
+    "satellites": "14 satellites and 5 rings",
+    "diameter": "49,528 km (equivalent to 3.88 times the diameter of Earth)",
+    "atmosphereComposition": "Hydrogen, helium, wind speed more than 600 km/hour",
+    "gravity": "1.135 times Earth's gravity",
+    "surfaceTemperature": "-220 degrees C",
+    "rotationPeriod": "16 hours 7 minutes (Earth size)",
+    "revolutionPeriod": "165 years (Earth size)",
+    "distanceFromSun": "30.1 AU (Astronomical Unit)"
+  }
+}
