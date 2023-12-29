@@ -59,7 +59,7 @@ fetch('planet.json')
 
 
     //Fungsi untuk membuat planet dan ringnya
-    function createPlanet(size, texture, position, ring, name) {
+    function createPlanet(size, texture, position, ring, name, speed) {
       const geo = new THREE.SphereGeometry(size, 30, 30);
       const mat = new THREE.MeshStandardMaterial({
         map: texture,
@@ -98,9 +98,43 @@ fetch('planet.json')
       scene.add(obj);
       mesh.position.x = position;
       let text = createPlanetLabel(name, mesh.position, obj);
-      return { mesh, obj, name };
+      return { mesh, obj, name, speed };
     }
 
+
+    // Fungsi menambahkan dat.GUI();
+    const gui = new dat.GUI();
+    function addPlanetControls(planetObject) {
+      const folder = gui.addFolder(planetObject.name);
+    
+      // Control kecepatan rotasi planet
+      folder.add({ speed: planetObject.speed }, 'speed', 0.0001, 0.03).name('Rotation Speed').onChange((value) => {
+        planetObject.speed = value;
+      });
+    
+      // Control untuk memperbesar planet pada sumbu X dan Y
+      folder.add({ scaleXY: 1 }, 'scaleXY', 1, 3).name('Scale X & Y').onChange((value) => {
+        planetObject.mesh.scale.x = value;
+        planetObject.mesh.scale.y = value;
+        planetObject.mesh.scale.z = value;
+      });
+    
+      // Menu untuk popup dan zoom camera
+      folder.add({ popup: () => {
+          displayPopup(planetObject.name); 
+          stopRotationAndFocus(planetObject.obj); 
+        },
+      }, 'popup').name('Show Info & Zoom'); 
+    
+      folder.close(); 
+    
+
+      folder.__controllers.forEach((controller) => {
+        controller.onChange(() => {
+          renderer.render(scene, camera); // Render ulang saat nilai diubah
+        });
+      });
+    }
 
     //Fungsi untuk menambahkan label pada planet
     function createPlanetLabel(text, position, object) {
@@ -134,7 +168,7 @@ fetch('planet.json')
           otherPlanet.visible = false;
         }
       });
-
+      // console.log(mercury.mesh.getWorldPosition(mercury.obj.position));
       const planetPosition = planet.children[0].position;
       const distance = planet.children[0].geometry.parameters.radius * 4;
       const newCameraPosition = new THREE.Vector3().copy(planetPosition).add(new THREE.Vector3(distance, distance, distance));
@@ -152,7 +186,7 @@ fetch('planet.json')
         .start();
 
       orbit.target = planetPosition.clone();
-      console.log(planetPosition);
+      
     }
 
 
@@ -208,10 +242,9 @@ fetch('planet.json')
       moonGeo.computeVertexNormals();
       const moonMesh = new THREE.Mesh(moonGeo, moonMat);
 
-      const pivotPosition = parentPlanet.mesh.position; // Mengambil posisi pivot
-      const relativePosition = new THREE.Vector3(orbitRadius, 0, 0); // Menghitung posisi relatif
-    
-      // Atur posisi awal berdasarkan posisi pivot dan posisi relatif
+      const pivotPosition = parentPlanet.mesh.position; 
+      const relativePosition = new THREE.Vector3(orbitRadius, 0, 0); 
+ 
       moonMesh.position.copy(pivotPosition.clone().add(relativePosition));
 
 
@@ -263,11 +296,11 @@ fetch('planet.json')
 
 
     //Membuat planet dari fungsi yang sudah ada sebelumnya
-    const mercury = createPlanet(3.2, mercurytex, 28, null, 'Mercury');
-    const venus = createPlanet(5.8, venustex, 44, null, 'Venus');
-    const earth = createPlanet(6, earthtex, 62, null, 'Earth');
-    const mars = createPlanet(4, marstex, 78, null, 'Mars');
-    const jupiter = createPlanet(12, jupitertex, 100, null, 'Jupyter');
+    const mercury = createPlanet(3.2, mercurytex, 28, null, 'Mercury', 0.02);
+    const venus = createPlanet(5.8, venustex, 44, null, 'Venus', 0.015);
+    const earth = createPlanet(6, earthtex, 62, null, 'Earth', 0.01);
+    const mars = createPlanet(4, marstex, 78, null, 'Mars', 0.008);
+    const jupiter = createPlanet(12, jupitertex, 100, null, 'Jupyter', 0.002);
     const saturn = createPlanet(
       10,
       saturntex,
@@ -277,7 +310,8 @@ fetch('planet.json')
         outerRadius: 20,
         texture: saturnRingtex,
       },
-      'Saturn'
+      'Saturn',
+      0.0009
     );
     const uranus = createPlanet(
       7,
@@ -288,9 +322,10 @@ fetch('planet.json')
         outerRadius: 12,
         texture: uranusRingtex,
       },
-      'Uranus'
+      'Uranus',
+      0.0004
     );
-    const neptune = createPlanet(7, neptunetex, 200, null, 'Neptune');
+    const neptune = createPlanet(7, neptunetex, 200, null, 'Neptune', 0.0001);
 
 
     const mercuryMoon = createMoon(1, moonTexture, 8, 0.05, 0.2, mercury);
@@ -301,6 +336,15 @@ fetch('planet.json')
     const pointLight = new THREE.PointLight(0xffffff, 10000, 1000);
     scene.add(pointLight);
     scene.add(new THREE.PointLightHelper(pointLight, 0.2, 0x00ff00));
+
+    addPlanetControls(mercury);
+    addPlanetControls(venus);
+    addPlanetControls(earth);
+    addPlanetControls(mars);
+    addPlanetControls(jupiter);
+    addPlanetControls(saturn);
+    addPlanetControls(uranus);
+    addPlanetControls(neptune);
 
 
     function animateMoon(moon){
@@ -324,32 +368,32 @@ fetch('planet.json')
       neptune.mesh.rotateY(0.032);
 
       if (state == true) {
-        mercury.obj.rotateY(0.02);
-        venus.obj.rotateY(0.015);
-        earth.obj.rotateY(0.01);
-        mars.obj.rotateY(0.008);
-        jupiter.obj.rotateY(0.002);
-        saturn.obj.rotateY(0.0009);
-        uranus.obj.rotateY(0.0004);
-        neptune.obj.rotateY(0.0001);
-      
+        mercury.obj.rotateY(mercury.speed);
+        venus.obj.rotateY(venus.speed);
+        earth.obj.rotateY(earth.speed);
+        mars.obj.rotateY(mars.speed);
+        jupiter.obj.rotateY(jupiter.speed);
+        saturn.obj.rotateY(saturn.speed);
+        uranus.obj.rotateY(uranus.speed);
+        neptune.obj.rotateY(neptune.speed);
+        
       } else {
-        mercury.obj.rotation.y = 0;
-        venus.obj.rotation.y = 0;
-        earth.obj.rotation.y = 0;
-        mars.obj.rotation.y = 0;
-        jupiter.obj.rotation.y = 0;
-        saturn.obj.rotation.y = 0;
-        uranus.obj.rotation.y = 0;
-        neptune.obj.rotation.y = 0;
+        mercury.obj.rotation.set(0, 0, 0);
+        venus.obj.rotation.set(0, 0, 0);
+        earth.obj.rotation.set(0, 0, 0);
+        mars.obj.rotation.set(0, 0, 0);
+        jupiter.obj.rotation.set(0, 0, 0);
+        saturn.obj.rotation.set(0, 0, 0);
+        uranus.obj.rotation.set(0, 0, 0);
+        neptune.obj.rotation.set(0, 0, 0);
 
       }
       
       animateMoon(earthMoon);
       animateMoon(mercuryMoon);
       animateMoon(venusMoon);
-      orbit.update();
       TWEEN.update();
+      orbit.update();
 
       renderer.render(scene, camera);
     }
