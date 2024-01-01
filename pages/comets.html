@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solar System Kelompok 1</title>
+    <link rel="icon" type="image/png" href="../texture/icon.ico" sizes="16x16" />
+    <link rel="stylesheet" href="../index.css" />
+    <script src="../node_modules/three/build/three.js"></script>
+    <script src="../node_modules/dat.gui/build/dat.gui.js"></script>
+    <link rel="stylesheet" href="../node_modules/dat.gui/build/dat.gui.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/webcomponents-loader.js"></script>
+  </head>
+  <body>
+    <section id="hero">
+      <div class="container" style="height: 100vh">
+        <div class="row d-flex justify-content-center align-items-center" style="min-height: 90vh">
+          <a href="../index.html#more" class="text-decoration-none text-primary fs-4"> Back to Main Page </a>
+          <div class="col-md-8 text-white">
+            <h1>Comets and Asteroids</h1>
+            <h5 class="mb-5">
+              Comets and asteroids are distinct celestial bodies within our solar system. Comets, originating from the Kuiper Belt and Oort Cloud, are composed of ice, dust, and volatile gases. When approaching the Sun, comets develop a
+              glowing coma and a tail, creating a spectacular display. On the other hand, asteroids, primarily located in the asteroid belt between Mars and Jupiter, are rocky and metallic objects without volatile atmospheres. Ranging in
+              size from small boulders to large masses, asteroids do not exhibit the visible features of comets. Despite their differences, both comets and asteroids offer valuable insights into the solar system's formation and early
+              conditions, contributing to our understanding of cosmic evolution.
+            </h5>
+          </div>
+          <div class="col-md-4">
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              <model-viewer class="mx-auto" src="../assets/particles_tests_-_2.glb" alt="Mars Rover" shadow-intensity="2" camera-controls auto-rotate> </model-viewer>
+            </button>
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">
+              <model-viewer class="mx-auto" src="../assets/asteroids_pack_rocky_version.glb" alt="Mars Rover" shadow-intensity="2" camera-controls auto-rotate> </model-viewer>
+            </button>
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+              <model-viewer class="mx-auto" src="../assets/meteor.glb" alt="Mars Rover" shadow-intensity="2" camera-controls auto-rotate> </model-viewer>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal -->
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5 text-center" id="staticBackdropLabel">Comet</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <model-viewer class="mx-auto" src="../assets/particles_tests_-_2.glb" alt="Comet" shadow-intensity="2" camera-controls auto-rotate> </model-viewer>
+            Comets, celestial bodies often referred to as "dirty snowballs" or "icy dirtballs," are composed of ice, dust, and volatile gases. Originating from two main regions in the solar system—the Kuiper Belt and the Oort Cloud—comets
+            become visible when they approach the Sun. As the Sun's heat causes the ices in the nucleus of a comet to vaporize, it creates a glowing coma (a cloud of gas and dust) and a distinctive tail that points away from the Sun due to
+            solar wind. Comets are known for their spectacular appearances in the night sky.
+            <br /><br />
+            These icy wanderers have elliptical orbits, bringing them close to the Sun during certain phases of their journey. Comets provide scientists with valuable information about the early solar system's composition and conditions.
+            The study of comets enhances our understanding of the processes that shaped the formation of planets and other celestial bodies.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5 text-center" id="staticBackdropLabel">Asteroids</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <model-viewer class="mx-auto" src="../assets/asteroids_pack_rocky_version.glb" alt="Mars Rover" shadow-intensity="2" camera-controls auto-rotate> </model-viewer>
+
+            Asteroids, often referred to as minor planets, are rocky objects that orbit the Sun, primarily found in the asteroid belt situated between the orbits of Mars and Jupiter. These diverse celestial bodies range in size from small
+            boulders to objects several hundred kilometers in diameter. Composed mainly of metals and rocky materials, asteroids lack the volatile atmospheres that characterize comets.
+            <br /><br />
+            While the majority of asteroids reside in the asteroid belt, their orbits can vary widely, and some may approach Earth. Unlike comets, asteroids do not exhibit tails when they come close to the Sun. These remnants from the early
+            solar system provide valuable insights into its formation and the conditions that prevailed during that time. Scientific exploration and study of asteroids contribute significantly to our understanding of the broader dynamics of
+            our solar system.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5 text-center" id="staticBackdropLabel">Meteor</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <model-viewer class="mx-auto" src="../assets/meteor.glb" alt="Mars Rover" shadow-intensity="2" camera-controls auto-rotate> </model-viewer>
+            Meteors, commonly known as shooting stars or falling stars, are transient celestial phenomena resulting from the entry of meteoroids into Earth's atmosphere. Meteoroids are small rocky or metallic bodies that orbit the Sun, and
+            when they collide with the Earth's atmosphere, they experience intense friction, causing them to heat up and produce a streak of light in the sky. This luminous trail is what we observe as a meteor.
+            <br /><br />
+            The majority of meteors are small and burn up completely in the atmosphere, creating brief and often dazzling displays. However, if a meteoroid is larger and survives its fiery passage, reaching the Earth's surface, it is then
+            referred to as a meteorite.
+            <br /><br />
+            Meteor showers, occurring when the Earth passes through debris trails left by comets, are notable events during which numerous meteors can be seen in a short period. Studying meteors provides valuable information about the
+            composition of these extraterrestrial bodies and their potential impact on our planet.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script src="../node_modules/three/build/three.module.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+    <script>
+      VANTA.FOG({
+        el: '#hero',
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        highlightColor: 0x0,
+        midtoneColor: 0x0,
+        lowlightColor: 0xffffff,
+        baseColor: 0xb68787,
+        blurFactor: 0.67,
+        speed: 2.0,
+        zoom: 1.6,
+      });
+    </script>
+  </body>
+</html>
