@@ -1,412 +1,187 @@
-import * as THREE from 'three';
-import { OrbitControls } from 'orbitcontrols';
-import TWEEN from '@tweenjs/tween.js';
-import { FontLoader } from 'fontloader';
-import { TextGeometry } from 'textgeometry';
+import * as THREE from "three";
+import { OrbitControls } from "orbitcontrols";
+import TWEEN from "@tweenjs/tween.js";
+import { Planet, Sun, SolarSystem } from "planet";
 
+const earthtex = new THREE.TextureLoader().load("texture/earth.jpg");
+const saturnRingtex = new THREE.TextureLoader().load("texture/torus.jpg");
+const suntex = new THREE.TextureLoader().load("texture/sun.jpg");
+const mercurytex = new THREE.TextureLoader().load("texture/mercury.jpg");
+const venustex = new THREE.TextureLoader().load("texture/venus.jpg");
+const marstex = new THREE.TextureLoader().load("texture/mars.jpg");
+const jupitertex = new THREE.TextureLoader().load("texture/jupiter.jpg");
+const neptunetex = new THREE.TextureLoader().load("texture/neptunus.jpg");
+const saturntex = new THREE.TextureLoader().load("texture/saturnus.jpg");
+const saturnRingtex2 = new THREE.TextureLoader().load("texture/saturnring.jpg");
+const uranustex = new THREE.TextureLoader().load("texture/uranus.jpg");
+const uranusRingtex = new THREE.TextureLoader().load("texture/uranusring.jpg");
+const moonTexture = new THREE.TextureLoader().load("texture/moon.jpeg");
 
-//Mengambil JSON dan Texture pada assets
-fetch('planet.json')
-  .then((response) => response.json())
-  .then((data) => {
-    const planetData = data;
-    const earthtex = new THREE.TextureLoader().load('texture/earth.jpg');
-    const saturnRingtex = new THREE.TextureLoader().load('texture/torus.jpg');
-    const suntex = new THREE.TextureLoader().load('texture/sun.jpg');
-    const mercurytex = new THREE.TextureLoader().load('texture/mercury.jpg');
-    const venustex = new THREE.TextureLoader().load('texture/venus.jpg');
-    const marstex = new THREE.TextureLoader().load('texture/mars.jpg');
-    const jupitertex = new THREE.TextureLoader().load('texture/jupiter.jpg');
-    const neptunetex = new THREE.TextureLoader().load('texture/neptunus.jpg');
-    const saturntex = new THREE.TextureLoader().load('texture/saturnus.jpg');
-    const uranustex = new THREE.TextureLoader().load('texture/uranus.jpg');
-    const uranusRingtex = new THREE.TextureLoader().load('texture/uranusring.jpg');
-    const moonTexture = new THREE.TextureLoader().load('texture/moon.jpeg');
+let viewport = document.getElementById("viewport");
+let solarSystem = new SolarSystem(viewport);
 
-    var viewport = document.getElementById('viewport');
+const gui = new dat.GUI();
 
-    var canvasHeight = viewport.height * 5;
-    var canvasWidth = viewport.width * 5;
-    var renderer = new THREE.WebGLRenderer({ canvas: viewport, antialias: true, alpha: true });
-    renderer.setClearColor(0x000000, 0);
-    renderer.setSize(canvasWidth, canvasHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+//light
+const ambientLight = new THREE.AmbientLight(0x333333);
+solarSystem.scene.add(ambientLight);
+const pointLight = new THREE.PointLight(0xffffff, 10000, 1000);
+solarSystem.scene.add(pointLight);
+solarSystem.scene.add(new THREE.PointLightHelper(pointLight, 0.2, 0x00ff00));
 
-    const scene = new THREE.Scene();
+//sun
+const sun = new Sun(solarSystem, 16, suntex);
 
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / innerHeight, 0.1, 1000);
+//planet
+const mercury = new Planet(solarSystem, 3.2, mercurytex, 28, "Mercury", 0.02);
+mercury.addPlanetControls(gui);
+mercury.createOrbit();
 
-    const orbit = new OrbitControls(camera, renderer.domElement);
+const venus = new Planet(solarSystem, 5.8, venustex, 44, "Venus", 0.015);
+venus.addPlanetControls(gui);
+venus.createOrbit();
 
-    camera.position.set(50, 200, 250);
-    orbit.update();
+const earth = new Planet(solarSystem, 6, earthtex, 62, "Earth", 0.01);
+earth.addPlanetControls(gui);
+earth.createOrbit();
 
-    const ambientLight = new THREE.AmbientLight(0x333333);
-    scene.add(ambientLight);
+const mars = new Planet(solarSystem, 4, marstex, 78, "Mars", 0.008);
+mars.addPlanetControls(gui);
+mars.createOrbit();
 
-    const cubeTextureLoader = new THREE.CubeTextureLoader();
-    const textureLoader = new THREE.TextureLoader();
+const jupiter = new Planet(solarSystem, 12, jupitertex, 100, "Jupyter", 0.002);
+jupiter.addPlanetControls(gui);
+jupiter.createOrbit();
 
-    const sunGeo = new THREE.SphereGeometry(16, 30, 30);
-    const sunMat = new THREE.MeshBasicMaterial({
-      map: suntex,
+const saturn = new Planet(solarSystem, 10, saturntex, 138, "Saturn", 0.0009);
+saturn.addPlanetControls(gui);
+saturn.createOrbit();
+saturn.createRing({
+  innerRadius: 14,
+  outerRadius: 19,
+  texture: saturnRingtex,
+});
+saturn.createRing({
+  innerRadius: 19,
+  outerRadius: 25,
+  texture: saturnRingtex2,
+});
+
+const uranus = new Planet(solarSystem, 7, uranustex, 176, "Uranus", 0.0004);
+uranus.addPlanetControls(gui);
+uranus.createOrbit();
+uranus.createRing({
+  innerRadius: 9,
+  outerRadius: 12,
+  texture: uranusRingtex,
+});
+
+const neptune = new Planet(solarSystem, 7, neptunetex, 200, "Neptune", 0.0001);
+neptune.addPlanetControls(gui);
+neptune.createOrbit();
+
+//Moons
+// const mercuryMoon = createMoon(1, moonTexture, 8, 0.05, 0.2, mercury);
+// const venusMoon = createMoon(1, moonTexture, 12, 0.03, 0.1, venus);
+const earthMoon = earth.createMoon(3, moonTexture, 18, 0.02, 0.3);
+
+function animateMoon(moon) {
+  moon.angle += moon.speed;
+  const x = Math.cos(moon.angle) * moon.radius;
+  const z = Math.sin(moon.angle) * moon.radius;
+  moon.mesh.position.set(x + moon.pivot.x, moon.pivot.y, z + moon.pivot.z);
+}
+
+const allPlanets = [
+  mercury,
+  venus,
+  earth,
+  mars,
+  jupiter,
+  saturn,
+  uranus,
+  neptune,
+];
+
+const gravitationalConstant = 0.25; // Konstanta gravitasi yang lebih lemah untuk simulasi gerakan di Bulan
+const jumpForce = 2.5; // Gaya lompatan yang lebih lemah
+// let objectPosition = solarSystem.model.position.y;
+let objectVelocity = 2.5;
+let isJumping = false;
+
+//Animasi agar planer berotasi dan berevolusi
+function animate() {
+  sun.mesh.rotateY(0.004);
+  mercury.mesh.rotateY(0.004);
+  venus.mesh.rotateY(0.002);
+  earth.mesh.rotateY(0.02);
+  mars.mesh.rotateY(0.018);
+  jupiter.mesh.rotateY(0.04);
+  saturn.mesh.rotateY(0.038);
+  uranus.mesh.rotateY(0.03);
+  neptune.mesh.rotateY(0.032);
+
+  if (solarSystem.state == true) {
+    allPlanets.forEach((planet) => {
+      planet.show();
     });
-    const sun = new THREE.Mesh(sunGeo, sunMat);
-    sun.onClick = function () {
-      displayPopup('Sun');
-    };
-    scene.add(sun);
-
-
-    //Fungsi untuk membuat planet dan ringnya
-    function createPlanet(size, texture, position, ring, name, speed) {
-      const geo = new THREE.SphereGeometry(size, 30, 30);
-      const mat = new THREE.MeshStandardMaterial({
-        map: texture,
-      });
-      geo.computeVertexNormals();
-      const mesh = new THREE.Mesh(geo, mat);
-      const obj = new THREE.Object3D();
-      obj.add(mesh);
-      mesh.onClick = function () {
-        displayPopup(name);
-        stopRotationAndFocus(obj);
-      };
-
-      const orbitCurve = new THREE.EllipseCurve(0, 0, position, position, 0, 2 * Math.PI, false, 0);
-
-      const points = orbitCurve.getPoints(100);
-
-      const orbitGeometry = new THREE.BufferGeometry().setFromPoints(points);
-      const orbitMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
-      const orbitPath = new THREE.Line(orbitGeometry, orbitMaterial);
-      orbitPath.rotation.x = -0.5 * Math.PI;
-      scene.add(orbitPath);
-
-      if (ring) {
-        const ringGeo = new THREE.RingGeometry(ring.innerRadius, ring.outerRadius, 32);
-        const ringMat = new THREE.MeshBasicMaterial({
-          map: ring.texture,
-          side: THREE.DoubleSide,
-        });
-        const ringMesh = new THREE.Mesh(ringGeo, ringMat);
-        obj.add(ringMesh);
-        ringMesh.position.x = position;
-        ringMesh.rotation.x = -0.5 * Math.PI;
-      }
-
-      scene.add(obj);
-      mesh.position.x = position;
-      let text = createPlanetLabel(name, mesh.position, obj);
-      return { mesh, obj, name, speed };
-    }
-
-
-    // Fungsi menambahkan dat.GUI();
-    const gui = new dat.GUI();
-    function addPlanetControls(planetObject) {
-      const folder = gui.addFolder(planetObject.name);
-    
-      // Control kecepatan rotasi planet
-      folder.add({ speed: planetObject.speed }, 'speed', 0.0001, 0.03).name('Rotation Speed').onChange((value) => {
-        planetObject.speed = value;
-      });
-    
-      // Control untuk memperbesar planet pada sumbu X dan Y
-      folder.add({ scaleXY: 1 }, 'scaleXY', 1, 3).name('Scale X & Y').onChange((value) => {
-        planetObject.mesh.scale.x = value;
-        planetObject.mesh.scale.y = value;
-        planetObject.mesh.scale.z = value;
-      });
-    
-      // Menu untuk popup dan zoom camera
-      folder.add({ popup: () => {
-          displayPopup(planetObject.name); 
-          stopRotationAndFocus(planetObject.obj); 
-        },
-      }, 'popup').name('Show Info & Zoom'); 
-    
-      folder.close(); 
-    
-
-      folder.__controllers.forEach((controller) => {
-        controller.onChange(() => {
-          renderer.render(scene, camera); // Render ulang saat nilai diubah
-        });
-      });
-    }
-
-    //Fungsi untuk menambahkan label pada planet
-    function createPlanetLabel(text, position, object) {
-      const fontLoader = new FontLoader();
-
-      fontLoader.load('./node_modules/three/examples/fonts/helvetiker_regular.typeface.json', function (font) {
-        const textGeometry = new TextGeometry(text, {
-          font: font,
-          size: 3,
-          height: 0.1,
-        });
-
-        const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-        const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-
-        textMesh.position.copy(position);
-        textMesh.position.y += 15;
-        object.add(textMesh);
-      });
-    }
-
-    // Fungi untuk menghentikan pergerakan planet ketika satu planet diklik
-    let state = true;
-    function stopRotationAndFocus(planet) {
-      state = false;
-
-      const planetsToHide = [mercury.obj, venus.obj, earth.obj, mars.obj, jupiter.obj, saturn.obj, uranus.obj, neptune.obj];
-      console.log(planet);
-      planetsToHide.forEach((otherPlanet) => {
-        if (otherPlanet !== planet) {
-          otherPlanet.visible = false;
-        }
-      });
-      // console.log(mercury.mesh.getWorldPosition(mercury.obj.position));
-      const planetPosition = planet.children[0].position;
-      const distance = planet.children[0].geometry.parameters.radius * 4;
-      const newCameraPosition = new THREE.Vector3().copy(planetPosition).add(new THREE.Vector3(distance, distance, distance));
-
-      new TWEEN.Tween(camera.position)
-        .to(
-          {
-            x: newCameraPosition.x - 30,
-            y: newCameraPosition.y,
-            z: newCameraPosition.z,
-          },
-          1000
-        )
-        .easing(TWEEN.Easing.Quadratic.InOut)
-        .start();
-
-      orbit.target = planetPosition.clone();
-      
-    }
-
-
-    //Fungsi untuk menampilkan detail planet ketika diklik
-    function displayPopup(planetName) {
-      const planetInfo = planetData[planetName] || { description: 'No information available.' };
-      const modal = document.createElement('div');
-      modal.classList.add('modal', 'fade', 'planet-modal');
-      modal.id = 'planetModal';
-      modal.innerHTML = `
-      <div class="modal-dialog  modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">${planetInfo.name}</h5>
-            </div>
-            <div class="modal-body">
-              <p><strong>Mass:</strong> ${planetInfo.mass}</p>
-              <p><strong>Satellites:</strong> ${planetInfo.satellites}</p>
-              <p><strong>Diameter:</strong> ${planetInfo.diameter}</p>
-              <p><strong>Atmosphere Composition:</strong> ${planetInfo.atmosphereComposition}</p>
-              <p><strong>Gravity:</strong> ${planetInfo.gravity}</p>
-              <p><strong>Surface Temperature:</strong> ${planetInfo.surfaceTemperature}</p>
-              <p><strong>Rotation Period:</strong> ${planetInfo.rotationPeriod}</p>
-              <p><strong>Revolution Period:</strong> ${planetInfo.revolutionPeriod}</p>
-              <p><strong>Distance From Sun:</strong> ${planetInfo.distanceFromSun}</p>
-            </div>
-          </div>
-        </div>
-    `;
-
-      document.body.appendChild(modal);
-
-      $(`#${modal.id}`).modal('show');
-
-      $(`#${modal.id}`).on('hidden.bs.modal', function () {
-        $(this).data('bs.modal', null);
-        modal.remove();
-
-        $('.modal-backdrop').remove();
-        $('body').removeClass('modal-open');
-
-        showAllPlanets();
-        state = true;
-      });
-    }
-
-    //Fungsi membuat satelit
-    function createMoon(size, texture, orbitRadius, orbitSpeed, orbitInclination, parentPlanet) {
-      const moonGeo = new THREE.SphereGeometry(size, 30, 30);
-      const moonMat = new THREE.MeshStandardMaterial({
-        map: texture,
-      });
-      moonGeo.computeVertexNormals();
-      const moonMesh = new THREE.Mesh(moonGeo, moonMat);
-
-      const pivotPosition = parentPlanet.mesh.position; 
-      const relativePosition = new THREE.Vector3(orbitRadius, 0, 0); 
- 
-      moonMesh.position.copy(pivotPosition.clone().add(relativePosition));
-
-
-      // moonMesh.position.copy(parentPlanet.mesh.position);
-      // textMesh.position.y += 15;
-    
-      // Add moon to the parent planet
-      parentPlanet.obj.add(moonMesh);
-    
-      return {
-        mesh: moonMesh,
-        radius: orbitRadius,
-        speed: orbitSpeed,
-        inclination: orbitInclination,
-        angle: Math.random() * Math.PI * 2,
-        pivot: pivotPosition, 
-      };
-    }
-    
-
-    //Fungsi untuk menampilkan kembali semua planet ketika selesai melihat detail planet
-    function showAllPlanets() {
-      const allPlanets = [mercury.obj, venus.obj, earth.obj, mars.obj, jupiter.obj, saturn.obj, uranus.obj, neptune.obj];
-
-      allPlanets.forEach((planet) => {
-        planet.visible = true;
-      });
-    }
-
-    //Membuat raycaster
-    viewport.addEventListener('click', function (event) {
-      const raycaster = new THREE.Raycaster();
-      const mouse = new THREE.Vector2();
-
-      mouse.x = (event.clientX / canvasWidth) * 2 - 1;
-      mouse.y = -(event.clientY / canvasHeight) * 2 + 1;
-
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(scene.children, true);
-
-      if (intersects.length > 0) {
-        const clickedObject = intersects[0].object;
-
-        if (clickedObject.onClick) {
-          clickedObject.onClick();
-        }
+    mercury.obj.rotateY(mercury.parameters.speed);
+    venus.obj.rotateY(venus.parameters.speed);
+    earth.obj.rotateY(earth.parameters.speed);
+    mars.obj.rotateY(mars.parameters.speed);
+    jupiter.obj.rotateY(jupiter.parameters.speed);
+    saturn.obj.rotateY(saturn.parameters.speed);
+    uranus.obj.rotateY(uranus.parameters.speed);
+    neptune.obj.rotateY(neptune.parameters.speed);
+  } else {
+    allPlanets.forEach((otherPlanet) => {
+      if (otherPlanet.obj !== solarSystem.zoom) {
+        otherPlanet.hide();
       }
     });
+    mercury.obj.rotation.set(0, 0, 0);
+    venus.obj.rotation.set(0, 0, 0);
+    earth.obj.rotation.set(0, 0, 0);
+    mars.obj.rotation.set(0, 0, 0);
+    jupiter.obj.rotation.set(0, 0, 0);
+    saturn.obj.rotation.set(0, 0, 0);
+    uranus.obj.rotation.set(0, 0, 0);
+    neptune.obj.rotation.set(0, 0, 0);
+  }
+  if (solarSystem.modelStatus == true) {
+    let acceleration = gravitationalConstant;
 
-
-    //Membuat planet dari fungsi yang sudah ada sebelumnya
-    const mercury = createPlanet(3.2, mercurytex, 28, null, 'Mercury', 0.02);
-    const venus = createPlanet(5.8, venustex, 44, null, 'Venus', 0.015);
-    const earth = createPlanet(6, earthtex, 62, null, 'Earth', 0.01);
-    const mars = createPlanet(4, marstex, 78, null, 'Mars', 0.008);
-    const jupiter = createPlanet(12, jupitertex, 100, null, 'Jupyter', 0.002);
-    const saturn = createPlanet(
-      10,
-      saturntex,
-      138,
-      {
-        innerRadius: 10,
-        outerRadius: 20,
-        texture: saturnRingtex,
-      },
-      'Saturn',
-      0.0009
-    );
-    const uranus = createPlanet(
-      7,
-      uranustex,
-      176,
-      {
-        innerRadius: 7,
-        outerRadius: 12,
-        texture: uranusRingtex,
-      },
-      'Uranus',
-      0.0004
-    );
-    const neptune = createPlanet(7, neptunetex, 200, null, 'Neptune', 0.0001);
-
-
-    const mercuryMoon = createMoon(1, moonTexture, 8, 0.05, 0.2, mercury);
-    const venusMoon = createMoon(1, moonTexture, 12, 0.03, 0.1, venus);
-    const earthMoon = createMoon(3, moonTexture, 18, 0.02, 0.3, earth);
-
-    //Menambahkan cahaya sebagai representasi sinar matahari
-    const pointLight = new THREE.PointLight(0xffffff, 10000, 1000);
-    scene.add(pointLight);
-    scene.add(new THREE.PointLightHelper(pointLight, 0.2, 0x00ff00));
-
-    addPlanetControls(mercury);
-    addPlanetControls(venus);
-    addPlanetControls(earth);
-    addPlanetControls(mars);
-    addPlanetControls(jupiter);
-    addPlanetControls(saturn);
-    addPlanetControls(uranus);
-    addPlanetControls(neptune);
-
-
-    function animateMoon(moon){
-      moon.angle += moon.speed;
-      const x = Math.cos(moon.angle) * moon.radius;
-      const z = Math.sin(moon.angle) * moon.radius;
-      moon.mesh.position.set(x + moon.pivot.x, moon.pivot.y, z + moon.pivot.z);
+    if (isJumping) {
+      // Jika sedang melompat, kurangi gaya gravitasi saat model di udara
+      acceleration *= 0.5;
     }
 
+    objectVelocity -= acceleration;
+    solarSystem.model.position.y += objectVelocity;
 
-    //Animasi agar planer berotasi dan berevolusi
-    function animate() {
-      sun.rotateY(0.004);
-      mercury.mesh.rotateY(0.004);
-      venus.mesh.rotateY(0.002);
-      earth.mesh.rotateY(0.02);
-      mars.mesh.rotateY(0.018);
-      jupiter.mesh.rotateY(0.04);
-      saturn.mesh.rotateY(0.038);
-      uranus.mesh.rotateY(0.03);
-      neptune.mesh.rotateY(0.032);
-
-      if (state == true) {
-        mercury.obj.rotateY(mercury.speed);
-        venus.obj.rotateY(venus.speed);
-        earth.obj.rotateY(earth.speed);
-        mars.obj.rotateY(mars.speed);
-        jupiter.obj.rotateY(jupiter.speed);
-        saturn.obj.rotateY(saturn.speed);
-        uranus.obj.rotateY(uranus.speed);
-        neptune.obj.rotateY(neptune.speed);
-        
-      } else {
-        mercury.obj.rotation.set(0, 0, 0);
-        venus.obj.rotation.set(0, 0, 0);
-        earth.obj.rotation.set(0, 0, 0);
-        mars.obj.rotation.set(0, 0, 0);
-        jupiter.obj.rotation.set(0, 0, 0);
-        saturn.obj.rotation.set(0, 0, 0);
-        uranus.obj.rotation.set(0, 0, 0);
-        neptune.obj.rotation.set(0, 0, 0);
-
-      }
-      
-      animateMoon(earthMoon);
-      animateMoon(mercuryMoon);
-      animateMoon(venusMoon);
-      TWEEN.update();
-      orbit.update();
-
-      renderer.render(scene, camera);
+    if (solarSystem.model.position.y <= 0) {
+      solarSystem.model.position.y = 0;
+      objectVelocity = 0;
+      isJumping = false;
     }
+  }
 
-    renderer.setAnimationLoop(() => {
-      animate();
-      renderer.render(scene, camera);
-    });
+  animateMoon(earthMoon);
+  // animateMoon(mercuryMoon);
+  // animateMoon(venusMoon);
+  TWEEN.update();
+  solarSystem.orbit.update();
 
-    window.addEventListener('resize', function () {
-      camera.aspect = this.window.innerWidth / this.window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-  })
-  .catch((error) => console.error('Error loading planet information:', error));
+  solarSystem.renderer.render(solarSystem.scene, solarSystem.camera);
+}
+
+solarSystem.renderer.setAnimationLoop(() => {
+  animate();
+  solarSystem.renderer.render(solarSystem.scene, solarSystem.camera);
+});
+
+window.addEventListener("resize", function () {
+  solarSystem.camera.aspect = this.window.innerWidth / this.window.innerHeight;
+  solarSystem.camera.updateProjectionMatrix();
+  solarSystem.renderer.setSize(window.innerWidth, window.innerHeight);
+});
