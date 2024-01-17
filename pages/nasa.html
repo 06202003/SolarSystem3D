@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solar System Kelompok 1</title>
+    <link rel="stylesheet" href="../index.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  </head>
+  <body style="margin: 0">
+    <section id="iss-info" style="padding: 20px">
+      <div class="container">
+        <a href="../index.html#more" class="text-decoration-none text-primary fs-4"> Back to Main Page </a>
+        <h1 class="mt-4">About the International Space Station (ISS)</h1>
+        <p>
+          The International Space Station (ISS) is a modular space station (habitable artificial satellite) in low Earth orbit. It is a multinational collaborative project involving space agencies such as NASA (United States), Roscosmos
+          (Russia), ESA (European Space Agency), JAXA (Japan), and CSA (Canada).
+        </p>
+        <p>
+          The ISS serves as a microgravity research laboratory where scientific research is conducted in astrobiology, astronomy, meteorology, physics, and other fields. It also serves as a space environment research facility in which
+          scientific research is carried out in astrobiology, astronomy, meteorology, physics, and other fields.
+        </p>
+      </div>
+    </section>
+    <section id="hero">
+      <div class="container-fluid">
+        <model-viewer src="../assets/iss.glb" style="width: 100%; height: 65vh" camera-controls auto-rotate background-color="#f0f0f0"></model-viewer>
+      </div>
+    </section>
+    <section id="iss-info2" style="padding: 20px">
+      <div class="container">
+        <h2>Purpose and Functionality</h2>
+        <p>
+          The ISS serves as a remarkable microgravity research laboratory, facilitating a wide array of scientific investigations across diverse fields. Scientists from around the world leverage the unique conditions of the ISS to conduct
+          experiments in astrobiology, astronomy, meteorology, physics, and various other scientific disciplines. Its modular design allows for continuous expansion and adaptation, enabling cutting-edge research and technological
+          advancements.
+        </p>
+        <h2>International Collaboration</h2>
+        <p>
+          The ISS stands as a symbol of international cooperation, bringing together the expertise and resources of multiple countries. This collaborative effort fosters a shared commitment to advancing human knowledge and understanding of
+          space.
+        </p>
+      </div>
+    </section>
+
+    <section id="hero2">
+      <div class="container-fluid">
+        <div class="row d-flex justify-content-center align-items-center">
+          <div class="col-md-4">
+            <model-viewer class="mx-auto" src="../assets/isspart1.glb" style="width: 100%; height: 80vh" camera-controls auto-rotate background-color="#f0f0f0"></model-viewer>
+          </div>
+          <div class="col-md-4">
+            <model-viewer class="mx-auto" src="../assets/atlantis.glb" style="width: 100%; height: 80vh" camera-controls auto-rotate background-color="#f0f0f0"></model-viewer>
+          </div>
+          <div class="col-md-4">
+            <model-viewer class="mx-auto" src="../assets/isspart2.glb" style="width: 80%; height: 80vh" camera-controls auto-rotate background-color="#f0f0f0"></model-viewer>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="iss-info3" style="padding: 20px">
+      <div class="container">
+        <h2>Scientific Research</h2>
+        <p>
+          Within the confines of the ISS, researchers explore the effects of microgravity on biological organisms, study celestial phenomena, investigate the Earth's atmosphere, and conduct experiments that would be impossible on Earth. The
+          findings contribute not only to our understanding of space but also have practical applications on Earth, such as advancements in medical research and materials science.
+        </p>
+        <h2>Ongoing Mission</h2>
+        <p>
+          The ISS continues to be a focal point for international space exploration, fostering innovation and inspiring the next generation of scientists and engineers. As countries around the world envision future space endeavors, the ISS
+          remains a cornerstone in the quest for knowledge and the expansion of humanity's presence in space.
+        </p>
+      </div>
+    </section>
+
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.clouds.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+
+    <script>
+      VANTA.CLOUDS({
+        el: '#hero',
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        backgroundColor: 0x0,
+        skyColor: 0x0,
+        cloudColor: 0x272727,
+        cloudShadowColor: 0x0,
+        sunColor: 0x7e5c31,
+        sunGlareColor: 0x543324,
+        sunlightColor: 0x604932,
+      });
+    </script>
+    <script>
+      VANTA.FOG({
+        el: '#hero2',
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        highlightColor: 0x0,
+        midtoneColor: 0x0,
+        lowlightColor: 0x595568,
+        baseColor: 0x5b5959,
+      });
+    </script>
+  </body>
+</html>
