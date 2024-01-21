@@ -12,6 +12,7 @@ const marstex = new THREE.TextureLoader().load("texture/mars.jpg");
 const jupitertex = new THREE.TextureLoader().load("texture/jupiter.jpg");
 const neptunetex = new THREE.TextureLoader().load("texture/neptunus.jpg");
 const saturntex = new THREE.TextureLoader().load("texture/saturnus.jpg");
+const saturnRingtex2 = new THREE.TextureLoader().load("texture/saturnring.jpg");
 const uranustex = new THREE.TextureLoader().load("texture/uranus.jpg");
 const uranusRingtex = new THREE.TextureLoader().load("texture/uranusring.jpg");
 const moonTexture = new THREE.TextureLoader().load("texture/moon.jpeg");
@@ -56,16 +57,21 @@ const saturn = new Planet(solarSystem, 10, saturntex, 138, "Saturn", 0.0009);
 saturn.addPlanetControls(gui);
 saturn.createOrbit();
 saturn.createRing({
-  innerRadius: 10,
-  outerRadius: 20,
+  innerRadius: 14,
+  outerRadius: 19,
   texture: saturnRingtex,
+});
+saturn.createRing({
+  innerRadius: 19,
+  outerRadius: 25,
+  texture: saturnRingtex2,
 });
 
 const uranus = new Planet(solarSystem, 7, uranustex, 176, "Uranus", 0.0004);
 uranus.addPlanetControls(gui);
 uranus.createOrbit();
 uranus.createRing({
-  innerRadius: 7,
+  innerRadius: 9,
   outerRadius: 12,
   texture: uranusRingtex,
 });
@@ -96,6 +102,13 @@ const allPlanets = [
   uranus,
   neptune,
 ];
+
+const gravitationalConstant = 0.25; // Konstanta gravitasi yang lebih lemah untuk simulasi gerakan di Bulan
+const jumpForce = 2.5; // Gaya lompatan yang lebih lemah
+// let objectPosition = solarSystem.model.position.y;
+let objectVelocity = 2.5;
+let isJumping = false;
+
 //Animasi agar planer berotasi dan berevolusi
 function animate() {
   sun.mesh.rotateY(0.004);
@@ -134,6 +147,23 @@ function animate() {
     saturn.obj.rotation.set(0, 0, 0);
     uranus.obj.rotation.set(0, 0, 0);
     neptune.obj.rotation.set(0, 0, 0);
+  }
+  if (solarSystem.modelStatus == true) {
+    let acceleration = gravitationalConstant;
+
+    if (isJumping) {
+      // Jika sedang melompat, kurangi gaya gravitasi saat model di udara
+      acceleration *= 0.5;
+    }
+
+    objectVelocity -= acceleration;
+    solarSystem.model.position.y += objectVelocity;
+
+    if (solarSystem.model.position.y <= 0) {
+      solarSystem.model.position.y = 0;
+      objectVelocity = 0;
+      isJumping = false;
+    }
   }
 
   animateMoon(earthMoon);
