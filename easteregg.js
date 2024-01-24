@@ -64,8 +64,25 @@ if (new URLSearchParams(window.location.search).get('clear')) {
     far = camera.position.z + 0.5;
 
     scene = new t.Scene();
-  // Set space-themed background
+    // Set space-themed background
     scene.add(camera);
+
+    // Create a starfield
+    const starGeometry = new t.BufferGeometry();
+    const starMaterial = new t.PointsMaterial({ color: 0xffffff, size: 2, sizeAttenuation: false });
+
+    const stars = [];
+    for (let i = 0; i < 1000; i++) {
+      const star = new t.Vector3();
+      star.x = (Math.random() - 0.3) * 4000; // Adjusted the range to cover the entire screen
+      star.y = (Math.random() - 0.5) * 4000;
+      star.z = (Math.random() - 0.5) * 4000;
+      stars.push(star);
+    }
+
+    starGeometry.setFromPoints(stars);
+    const starfield = new t.Points(starGeometry, starMaterial);
+    scene.add(starfield);
 
     renderer = new t.WebGLRenderer({ antialias: true, depthBuffer: true });
     renderer.setPixelRatio(pixR);
